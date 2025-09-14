@@ -1,12 +1,10 @@
 import cv2
 import mediapipe as mp
 
-
 mp_face_detection = mp.solutions.face_detection        
 mp_drawing = mp.solutions.drawing_utils               
-
-cap = cv2.VideoCapture(0)
-
+cam="http://192.168.1.3:4747/video"
+cap = cv2.VideoCapture(cam)
 
 with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence=0.5) as face_detection:
     while cap.isOpened():  
@@ -25,15 +23,9 @@ with mp_face_detection.FaceDetection(model_selection=0, min_detection_confidence
         if results.detections:
             for detection in results.detections:
                 
-                mp_drawing.draw_detection(frame, detection)
-
-      
-        cv2.imshow("Face Detection", frame)
-
-        
+                mp_drawing.draw_detection(frame, detection)      
+        cv2.imshow("Face Detection", frame)        
         if cv2.waitKey(5) & 0xFF == ord('q'):
             break
-
-
 cap.release()
 cv2.destroyAllWindows()
